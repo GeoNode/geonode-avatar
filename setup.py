@@ -1,21 +1,21 @@
 from setuptools import setup, find_packages
 
-version = '2.0a1'
+version = '2.1.1'
 
 LONG_DESCRIPTION = """
-Using django-avatar
+Using geonode-avatar
 ===================
 
 
 Basics
 ------
 
-To integrate ``django-avatar`` with your site, there are relatively few things
+To integrate ``geonode-avatar`` with your site, there are relatively few things
 that are required.  A minimal integration can work like this:
 
 1.  List this application in the ``INSTALLED_APPS`` portion of your settings
     file.  Your settings file will look something like::
-   
+
         INSTALLED_APPS = (
             # ...
             'avatar',
@@ -23,7 +23,7 @@ that are required.  A minimal integration can work like this:
 
 2.  Add the pagination urls to the end of your root urlconf.  Your urlconf
     will look something like::
-    
+
         urlpatterns = patterns('',
             # ...
             (r'^admin/(.*)', admin.site.root),
@@ -32,20 +32,20 @@ that are required.  A minimal integration can work like this:
 
 3.  Somewhere in your template navigation scheme, link to the change avatar
     page::
-    
+
         <a href="{% url avatar_change %}">Change your avatar</a>
 
 4.  Wherever you want to display an avatar for a user, first load the avatar
     template tags::
-    
+
         {% load avatar_tags %}
-    
+
     Then, use the ``avatar`` tag to display an avatar of a default size::
-    
+
         {% avatar user %}
-    
+
     Or specify a size (in pixels) explicitly::
-    
+
         {% avatar user 65 %}
 
 5.  Optionally customize ``avatar/change.html`` and
@@ -64,7 +64,7 @@ Changing an avatar
 The actual view function is located at ``avatar.views.change``, and this can
 be referenced by the url name ``avatar_change``.  It takes two keyword
 arguments: ``extra_context`` and ``next_override``.  If ``extra_context`` is
-provided, that context will be placed into the template's context.  
+provided, that context will be placed into the template's context.
 
 If ``next_override`` is provided, the user will be redirected to the specified
 URL after form submission.  Otherwise the user will be redirected to the URL
@@ -144,9 +144,9 @@ setting.
 """
 
 setup(
-    name='django-avatar',
+    name='geonode-avatar',
     version=version,
-    description="django-avatar",
+    description="A fork of django-avatar, for GeoNode",
     long_description=LONG_DESCRIPTION,
     classifiers=[
         "Programming Language :: Python",
@@ -155,9 +155,9 @@ setup(
         "Environment :: Web Environment",
     ],
     keywords='avatar,django',
-    author='Eric Florenzano',
-    author_email='floguy@gmail.com',
-    url='http://github.com/ericflo/django-avatar/',
+    author='Ariel Nunez',
+    author_email='ingenieroariel@gmail.com',
+    url='http://github.com/ingenieroariel/geonode-avatar/',
     license='BSD',
     packages=find_packages(),
     package_data = {
