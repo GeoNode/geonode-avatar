@@ -1,8 +1,9 @@
 import urllib
+import hashlib
+
 
 from django import template
 from django.utils.translation import ugettext as _
-from django.utils.hashcompat import md5_constructor
 from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User
@@ -30,7 +31,7 @@ def avatar_url(user, size=AVATAR_DEFAULT_SIZE):
                 proto = "https"
             return "%s://www.gravatar.com/avatar/%s/?%s" % (
                 proto,
-                md5_constructor(user.email).hexdigest(),
+                hashlib.md5(user.email).hexdigest(),
                 urllib.urlencode(params))
         else:
             return get_default_avatar_url()
