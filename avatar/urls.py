@@ -1,4 +1,7 @@
-from django.conf.urls import patterns, url
+try:
+    from django.conf.urls import url, patterns
+except ImportError:
+    from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('avatar.views',
     url('^add/$', 'add', name='avatar_add'),
