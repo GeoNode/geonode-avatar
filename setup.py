@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.1'
+version = '2.1.2'
 
 LONG_DESCRIPTION = """
 Using geonode-avatar
@@ -157,7 +157,7 @@ setup(
     keywords='avatar,django',
     author='Ariel Nunez',
     author_email='ingenieroariel@gmail.com',
-    url='http://github.com/ingenieroariel/geonode-avatar/',
+    url='http://github.com/GeoNode/geonode-avatar/',
     license='BSD',
     packages=find_packages(),
     package_data = {
