@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include, handler500, handler404
+from django.conf.urls import patterns, include, handler500, handler404
  
 DEFAULT_CHARSET = 'utf-8'
  
