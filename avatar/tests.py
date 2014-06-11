@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from avatar.settings import AVATAR_DEFAULT_URL, AVATAR_MAX_AVATARS_PER_USER
 from avatar.util import get_primary_avatar
@@ -29,7 +29,7 @@ class AvatarUploadTests(TestCase):
     
     def setUp(self):
         self.testdatapath = os.path.join(os.path.dirname(__file__), "testdata")
-        self.user = User.objects.create_user('test', 'lennon@thebeatles.com', 'testpassword')
+        self.user = get_user_model().objects.create_user('test', 'lennon@thebeatles.com', 'testpassword')
         self.user.save()
         self.client.login(username='test', password='testpassword')
         Image.init()

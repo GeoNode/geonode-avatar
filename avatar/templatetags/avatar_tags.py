@@ -6,7 +6,7 @@ from django import template
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from avatar.settings import (AVATAR_GRAVATAR_BACKUP, AVATAR_GRAVATAR_DEFAULT,
                              AVATAR_DEFAULT_SIZE, AVATAR_GRAVATAR_SSL)
@@ -39,12 +39,12 @@ def avatar_url(user, size=AVATAR_DEFAULT_SIZE):
 @cache_result
 @register.simple_tag
 def avatar(user, size=AVATAR_DEFAULT_SIZE):
-    if not isinstance(user, User):
+    if not isinstance(user, get_user_model()):
         try:
-            user = User.objects.get(username=user)
+            user = get_user_model().objects.get(username=user)
             alt = unicode(user)
             url = avatar_url(user, size)
-        except User.DoesNotExist:
+        except get_user_model().DoesNotExist:
             url = get_default_avatar_url()
             alt = _("Default Avatar")
     else:

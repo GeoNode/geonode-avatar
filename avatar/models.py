@@ -3,12 +3,11 @@ import os
 import hashlib
 
 from django.db import models
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext as _
 from django.utils.encoding import smart_str
 from django.db.models import signals
-
-from django.contrib.auth.models import User
 
 try:
     from cStringIO import StringIO
@@ -66,7 +65,7 @@ def find_extension(format):
     return format
 
 class Avatar(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     primary = models.BooleanField(default=False)
     avatar = models.ImageField(max_length=1024, upload_to=avatar_file_path, blank=True)
     date_uploaded = models.DateTimeField(default=datetime.datetime.now)
