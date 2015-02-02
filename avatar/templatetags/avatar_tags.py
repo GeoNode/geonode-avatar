@@ -50,8 +50,8 @@ def avatar(user, size=AVATAR_DEFAULT_SIZE):
     else:
         alt = unicode(user)
         url = avatar_url(user, size)
-    return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (url, alt,
-        size, size)
+    return """<img src="%s" alt="%s" />""" % (url, alt,
+        )
 
 @cache_result
 @register.simple_tag
@@ -64,13 +64,13 @@ def primary_avatar(user, size=AVATAR_DEFAULT_SIZE):
     """
     alt = unicode(user)
     url = reverse('avatar_render_primary', kwargs={'user' : user, 'size' : size})
-    return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (url, alt,
-        size, size)
+    return """<img src="%s" alt="%s" />""" % (url, alt,
+        )
 
 @cache_result
 @register.simple_tag
 def render_avatar(avatar, size=AVATAR_DEFAULT_SIZE):
     if not avatar.thumbnail_exists(size):
         avatar.create_thumbnail(size)
-    return """<img src="%s" alt="%s" width="%s" height="%s" />""" % (
-        avatar.avatar_url(size), str(avatar), size, size)
+    return """<img src="%s" alt="%s" />""" % (
+        avatar.avatar_url(size), str(avatar))
