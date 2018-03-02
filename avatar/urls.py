@@ -1,11 +1,10 @@
-try:
-    from django.conf.urls import url, patterns
-except ImportError:
-    from django.conf.urls.defaults import url, patterns
+from django.conf.urls import url
 
-urlpatterns = patterns('avatar.views',
-    url('^add/$', 'add', name='avatar_add'),
-    url('^change/$', 'change', name='avatar_change'),
-    url('^delete/$', 'delete', name='avatar_delete'),
-    url('^render_primary/(?P<user>[\+\w]+)/(?P<size>[\d]+)/$', 'render_primary', name='avatar_render_primary'),    
-)
+from . import views
+
+urlpatterns = [  # 'avatar.views',
+    url('^add/$', views.add, name='avatar_add'),
+    url('^change/$', views.change, name='avatar_change'),
+    url('^delete/$', views.delete, name='avatar_delete'),
+    url('^render_primary/(?P<user>[\+\w]+)/(?P<size>[\d]+)/$', views.render_primary, name='avatar_render_primary'),
+]
