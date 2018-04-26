@@ -1,6 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
@@ -16,7 +15,7 @@ from avatar.util import get_primary_avatar, get_default_avatar_url
 
 def _get_next(request):
     """
-    The part that's the least straightforward about views in this module is how they 
+    The part that's the least straightforward about views in this module is how they
     determine their redirects after they have finished computation.
 
     In short, they will try and determine the next place to go in the following order:
@@ -37,14 +36,14 @@ def _get_next(request):
 def _get_avatars(user):
     # Default set. Needs to be sliced, but that's it. Keep the natural order.
     avatars = user.avatar_set.all()
-    
+
     # Current avatar
     primary_avatar = avatars.order_by('-primary')[:1]
     if primary_avatar:
         avatar = primary_avatar[0]
     else:
         avatar = None
-    
+
     if AVATAR_MAX_AVATARS_PER_USER == 1:
         avatars = primary_avatar
     else:
@@ -72,17 +71,15 @@ def add(request, extra_context=None, next_override=None,
             messages.info(request, _("Successfully uploaded a new avatar."))
             avatar_updated.send(sender=Avatar, user=request.user, avatar=avatar)
             return HttpResponseRedirect(next_override or _get_next(request))
-    return render_to_response(
+    ctx = {'avatar': avatar,
+           'avatars': avatars,
+           'upload_avatar_form': upload_avatar_form,
+           'next': next_override or _get_next(request), }
+    ctx.update(extra_context)
+    return render(
+            request,
             'avatar/add.html',
-            extra_context,
-            context_instance = RequestContext(
-                request,
-                { 'avatar': avatar, 
-                  'avatars': avatars, 
-                  'upload_avatar_form': upload_avatar_form,
-                  'next': next_override or _get_next(request), }
-            )
-        )
+            context=ctx)
 
 @login_required
 def change(request, extra_context=None, next_override=None,
@@ -110,18 +107,16 @@ def change(request, extra_context=None, next_override=None,
         if updated:
             avatar_updated.send(sender=Avatar, user=request.user, avatar=avatar)
         return HttpResponseRedirect(next_override or _get_next(request))
-    return render_to_response(
+    ctx = {'avatar': avatar,
+           'avatars': avatars,
+           'upload_avatar_form': upload_avatar_form,
+           'primary_avatar_form': primary_avatar_form,
+           'next': next_override or _get_next(request), }
+    ctx.update(extra_context)
+    return render(
+        request,
         'avatar/change.html',
-        extra_context,
-        context_instance = RequestContext(
-            request,
-            { 'avatar': avatar, 
-              'avatars': avatars,
-              'upload_avatar_form': upload_avatar_form,
-              'primary_avatar_form': primary_avatar_form,
-              'next': next_override or _get_next(request), }
-        )
-    )
+        context=ctx)
 
 @login_required
 def delete(request, extra_context=None, next_override=None, *args, **kwargs):
@@ -144,18 +139,16 @@ def delete(request, extra_context=None, next_override=None, *args, **kwargs):
             Avatar.objects.filter(id__in=ids).delete()
             messages.info(request, _("Successfully deleted the requested avatars."))
             return HttpResponseRedirect(next_override or _get_next(request))
-    return render_to_response(
+    ctx = {'avatar': avatar,
+           'avatars': avatars,
+           'delete_avatar_form': delete_avatar_form,
+           'next': next_override or _get_next(request), }
+    ctx.update(extra_context)
+    return render(
+        request,
         'avatar/confirm_delete.html',
-        extra_context,
-        context_instance = RequestContext(
-            request,
-            { 'avatar': avatar, 
-              'avatars': avatars,
-              'delete_avatar_form': delete_avatar_form,
-              'next': next_override or _get_next(request), }
-        )
-    )
-    
+        context=ctx)
+
 def render_primary(request, extra_context={}, user=None, size=AVATAR_DEFAULT_SIZE, *args, **kwargs):
     size = int(size)
     avatar = get_primary_avatar(user, size=size)
@@ -169,4 +162,3 @@ def render_primary(request, extra_context={}, user=None, size=AVATAR_DEFAULT_SIZ
     else:
         url = get_default_avatar_url()
         return HttpResponseRedirect(url)
-    
