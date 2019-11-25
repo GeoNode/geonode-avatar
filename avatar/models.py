@@ -1,5 +1,6 @@
 import datetime
 import os
+import io
 import hashlib
 
 from django.db import models
@@ -9,17 +10,9 @@ from django.utils.translation import ugettext as _
 from django.utils.encoding import smart_str
 from django.db.models import signals
 
-try:
-    from cStringIO import StringIO
-    dir(StringIO) # Placate PyFlakes
-except ImportError:
-    from StringIO import StringIO
 
-try:
-    from PIL import Image
-    dir(Image) # Placate PyFlakes
-except ImportError:
-    import Image
+from io import StringIO
+from PIL import Image
 
 from avatar.util import invalidate_cache
 from avatar.settings import (AVATAR_STORAGE_DIR, AVATAR_RESIZE_METHOD,
@@ -97,8 +90,7 @@ class Avatar(models.Model):
         # invalidate the cache of the thumbnail with the given size first
         invalidate_cache(self.user, size)
         try:
-            orig = self.avatar.storage.open(self.avatar.name, 'rb').read()
-            image = Image.open(StringIO(orig))
+            image = Image.open(self.avatar.name)
         except IOError:
             return # What should we do here?  Render a "sorry, didn't work" img?
         quality = quality or AVATAR_THUMB_QUALITY
