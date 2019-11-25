@@ -1,6 +1,20 @@
+
+
+try:  # for pip >= 10
+    from pip._internal.req import parse_requirements
+    from pip._internal.download import PipSession
+except ImportError:  # for pip <= 9.0.3
+    from pip.req import parse_requirements
+    from pip.download import PipSession
+
 from setuptools import setup, find_packages
 
 version = '2.1.8'
+
+# Parse requirements.txt to get the list of dependencies
+inst_req = parse_requirements('requirements.txt',
+                              session=PipSession())
+REQUIREMENTS = [str(r.req) for r in inst_req]
 
 LONG_DESCRIPTION = """
 Using geonode-avatar
@@ -154,6 +168,7 @@ setup(
         "Framework :: Django",
         "Environment :: Web Environment",
     ],
+    python_requires='>=3',
     keywords='avatar,django',
     author='Ariel Nunez',
     author_email='ingenieroariel@gmail.com',
@@ -169,5 +184,6 @@ setup(
         ],
     },
     include_package_data=True,
+    install_requires=REQUIREMENTS,
     zip_safe=False,
 )
