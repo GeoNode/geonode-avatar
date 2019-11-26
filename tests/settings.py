@@ -1,11 +1,15 @@
-from django.conf.urls import patterns, include, handler500, handler404
- 
+import os
+
 DEFAULT_CHARSET = 'utf-8'
- 
-DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = ':memory:'
- 
-ROOT_URLCONF = 'settings'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+}
+
+ROOT_URLCONF = 'avatar.urls'
 
 STATIC_URL = '/site_media/static/'
 
@@ -16,21 +20,28 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sites',
-    'django.contrib.comments',
+    'django_comments',
     'avatar',
 )
- 
-TEMPLATE_LOADERS = (
-    'django.template.loaders.app_directories.load_template_source',
-)
- 
+
+MIDDLEWARE = [
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+]
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath('avatar')))
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+    },
+]
+
+SECRET_KEY = "nothing important"
+
 AVATAR_ALLOWED_FILE_EXTS = ('.jpg', '.png')
 AVATAR_MAX_SIZE = 1024 * 1024
 AVATAR_MAX_AVATARS_PER_USER = 20
- 
-urlpatterns = patterns('',
-    (r'^avatar/', include('avatar.urls')),
-)
-
-def __exported_functionality__():
-    return (handler500, handler404)
