@@ -16,6 +16,11 @@ inst_req = parse_requirements('requirements.txt',
                               session=PipSession())
 REQUIREMENTS = [str(r.req) for r in inst_req]
 
+# Parse requirements.txt to get the list of dependencies
+inst_req = parse_requirements('requirements.txt',
+                              session=PipSession())
+REQUIREMENTS = [str(r.req) for r in inst_req]
+
 LONG_DESCRIPTION = """
 Using geonode-avatar
 ===================
