@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.8'
+version = '3.0'
 
 LONG_DESCRIPTION = """
 Using geonode-avatar
