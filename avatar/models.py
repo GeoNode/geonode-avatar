@@ -10,8 +10,6 @@ from django.utils.translation import ugettext as _
 from django.utils.encoding import smart_str
 from django.db.models import signals
 
-
-from io import StringIO
 from PIL import Image
 
 from avatar.util import invalidate_cache
@@ -63,8 +61,8 @@ class Avatar(models.Model):
     avatar = models.ImageField(max_length=1024, upload_to=avatar_file_path, blank=True)
     date_uploaded = models.DateTimeField(default=datetime.datetime.now)
     
-    def __unicode__(self):
-        return _(u'Avatar for %s') % self.user
+    def __str__(self):
+        return _("Avatar for %s") % self.user
     
     def save(self, *args, **kwargs):
         avatars = Avatar.objects.filter(user=self.user)
@@ -105,7 +103,7 @@ class Avatar(models.Model):
             if image.mode != "RGB":
                 image = image.convert("RGB")
             image = image.resize((size, size), AVATAR_RESIZE_METHOD)
-            thumb = StringIO()
+            thumb = io.BytesIO()
             image.save(thumb, AVATAR_THUMB_FORMAT, quality=quality)
             thumb_file = ContentFile(thumb.getvalue())
         else:

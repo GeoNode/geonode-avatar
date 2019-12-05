@@ -1,4 +1,4 @@
-import urllib
+from urllib.parse import urlencode
 import hashlib
 
 
@@ -31,8 +31,7 @@ def avatar_url(user, size=AVATAR_DEFAULT_SIZE):
                 proto = "https"
             return "%s://www.gravatar.com/avatar/%s/?%s" % (
                 proto,
-                hashlib.md5(user.email).hexdigest(),
-                urllib.urlencode(params))
+                hashlib.md5(user.email.encode()).hexdigest(), urlencode(params))
         else:
             return get_default_avatar_url()
 
@@ -42,13 +41,13 @@ def avatar(user, size=AVATAR_DEFAULT_SIZE):
     if not isinstance(user, get_user_model()):
         try:
             user = get_user_model().objects.get(username=user)
-            alt = unicode(user)
+            alt = str(user)
             url = avatar_url(user, size)
         except get_user_model().DoesNotExist:
             url = get_default_avatar_url()
             alt = _("Default Avatar")
     else:
-        alt = unicode(user)
+        alt = str(user)
         url = avatar_url(user, size)
     return """<img src="%s" alt="%s" />""" % (url, alt,
         )
@@ -62,7 +61,7 @@ def primary_avatar(user, size=AVATAR_DEFAULT_SIZE):
     work for us. If that special view is then cached by a CDN for instance,
     we will avoid many db calls.
     """
-    alt = unicode(user)
+    alt = str(user)
     url = reverse('avatar_render_primary', kwargs={'user' : user, 'size' : size})
     return """<img src="%s" alt="%s" />""" % (url, alt,
         )
