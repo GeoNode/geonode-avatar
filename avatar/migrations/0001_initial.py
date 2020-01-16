@@ -38,7 +38,8 @@ class Migration(migrations.Migration):
                 ('primary', models.BooleanField(default=False)),
                 ('avatar', models.ImageField(max_length=1024, upload_to=avatar.models.avatar_file_path, blank=True)),
                 ('date_uploaded', models.DateTimeField(default=datetime.datetime.now)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL,
+                                           on_delete=models.CASCADE)),
             ],
         ),
     ]

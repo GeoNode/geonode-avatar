@@ -1,5 +1,3 @@
-
-
 try:  # for pip >= 10
     from pip._internal.req import parse_requirements
     from pip._internal.download import PipSession
@@ -9,7 +7,7 @@ except ImportError:  # for pip <= 9.0.3
 
 from setuptools import setup, find_packages
 
-version = '3.0'
+version = '3.0.2b'
 
 # Parse requirements.txt to get the list of dependencies
 inst_req = parse_requirements('requirements.txt',
@@ -173,7 +171,7 @@ setup(
         "Framework :: Django",
         "Environment :: Web Environment",
     ],
-    python_requires='>=3',
+    # python_requires='>=3',
     keywords='avatar,django',
     author='Ariel Nunez',
     author_email='ingenieroariel@gmail.com',
