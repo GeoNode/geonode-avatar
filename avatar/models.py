@@ -2,6 +2,7 @@ import datetime
 import os
 import io
 import hashlib
+from shutil import copyfile
 
 from django.db import models
 from django.conf import settings
@@ -111,6 +112,16 @@ class Avatar(models.Model):
         thumb = self.avatar.storage.save(self.avatar_name(size), thumb_file)
 
     def avatar_url(self, size):
+        try:
+            _base_path = os.path.split(self.avatar_name(size))[0]
+            _upload_path = os.path.split(
+                self.avatar.storage.url(self.avatar_name(size)))[1]
+            _upload_path = os.path.join(_base_path, _upload_path)
+            if not self.avatar.storage.exists(_upload_path):
+                copyfile(self.avatar.storage.path(self.avatar_name(size)),
+                         self.avatar.storage.path(_upload_path))
+        except BaseException:
+            pass
         return self.avatar.storage.url(self.avatar_name(size))
     
     def avatar_name(self, size):
