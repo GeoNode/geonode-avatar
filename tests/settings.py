@@ -1,6 +1,8 @@
 import os
 
-DEFAULT_CHARSET = 'utf-8'
+SETTINGS_DIR = os.path.dirname(__file__)
+
+DATABASE_ENGINE = 'sqlite3'
 
 DATABASES = {
     'default': {
@@ -9,38 +11,49 @@ DATABASES = {
     }
 }
 
-ROOT_URLCONF = 'avatar.urls'
-
-STATIC_URL = '/site_media/static/'
-
-SITE_ID = 1
-
-INSTALLED_APPS = (
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sites',
-    'django_comments',
     'avatar',
-)
-
-MIDDLEWARE = [
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath('avatar')))
+MIDDLEWARE = (
+    "django.middleware.common.CommonMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
-    },
+        'DIRS': [
+            os.path.join(SETTINGS_DIR, 'templates')
+        ],
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages'
+            ]
+        }
+    }
 ]
 
-SECRET_KEY = "nothing important"
+ROOT_URLCONF = 'tests.urls'
+
+SITE_ID = 1
+
+SECRET_KEY = 'something-something'
+
+ROOT_URLCONF = 'tests.urls'
+
+STATIC_URL = '/site_media/static/'
 
 AVATAR_ALLOWED_FILE_EXTS = ('.jpg', '.png')
 AVATAR_MAX_SIZE = 1024 * 1024
