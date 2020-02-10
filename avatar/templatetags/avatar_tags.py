@@ -1,4 +1,8 @@
-from urllib.parse import urlencode
+try:
+    from urllib.parse import urlencode, urlsplit, urljoin
+except ImportError:
+    from urllib import urlencode
+    from urlparse import urlsplit, urljoin
 import hashlib
 
 
