@@ -1,3 +1,8 @@
+3.0.4 [2020-02-10]
+------------------
+
+ * [Preserve python 2.7 back-compatibility](https://github.com/GeoNode/geonode-avatar/issues/8)
+
 3.0.3 [2020-02-10]
 ------------------
 

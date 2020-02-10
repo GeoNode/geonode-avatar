@@ -16,7 +16,7 @@ except ImportError:  # for pip <= 9.0.3
 
 from setuptools import setup, find_packages
 
-version = '3.0.3'
+version = '3.0.4'
 
 # Parse requirements.txt to get the list of dependencies
 inst_req = parse_requirements('requirements.txt',
