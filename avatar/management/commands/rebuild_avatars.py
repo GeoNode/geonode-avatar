@@ -12,6 +12,7 @@ class Command(BaseCommand):
         for avatar in Avatar.objects.all():
             for size in settings.AVATAR_AUTO_GENERATE_SIZES:
                 if options['verbosity'] != 0:
-                    print("Rebuilding Avatar id=%s at size %s." % (avatar.id, size))
+                    print("Rebuilding Avatar id={0} at size {1}.".format(
+                        avatar.id, size))
 
                 avatar.create_thumbnail(size)

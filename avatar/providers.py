@@ -62,8 +62,10 @@ class GravatarAvatarProvider(object):
             params['d'] = settings.AVATAR_GRAVATAR_DEFAULT
         if settings.AVATAR_GRAVATAR_FORCEDEFAULT:
             params['f'] = 'y'
-        path = "%s/?%s" % (hashlib.md5(force_bytes(getattr(user,
-            settings.AVATAR_GRAVATAR_FIELD))).hexdigest(), urlencode(params))
+        path = "%s/?%s" % (
+            hashlib.md5(force_bytes(
+                getattr(user, settings.AVATAR_GRAVATAR_FIELD))).hexdigest(),
+            urlencode(params))
 
         return urljoin(settings.AVATAR_GRAVATAR_BASE_URL, path)
 
@@ -77,7 +79,8 @@ class FacebookAvatarProvider(object):
     def get_avatar_url(self, user, size):
         fb_id = get_facebook_id(user)
         if fb_id:
-            url = 'https://graph.facebook.com/{fb_id}/picture?type=square&width={size}&height={size}'
+            url = 'https://graph.facebook.com/{fb_id}/' \
+                  'picture?type=square&width={size}&height={size}'
             return url.format(
                 fb_id=fb_id,
                 size=size

@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='avatar',
-            options={'verbose_name': 'avatar', 'verbose_name_plural': 'avatars'},
+            options={'verbose_name': 'avatar',
+                     'verbose_name_plural': 'avatars'},
         ),
         migrations.AlterField(
             model_name='avatar',
@@ -26,7 +27,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='avatar',
             name='date_uploaded',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='uploaded at'),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       verbose_name='uploaded at'),
         ),
         migrations.AlterField(
             model_name='avatar',
@@ -36,6 +38,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='avatar',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='user'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL, verbose_name='user'),
         ),
     ]

@@ -78,8 +78,8 @@ that are required.  A minimal integration can work like this:
 Views
 -----
 
-There are only two views for this application: one for changing a user's avatar,
-and another for deleting a user's avatar.
+There are only two views for this application: one for changing a user's
+avatar, and another for deleting a user's avatar.
 
 Changing an avatar
 ~~~~~~~~~~~~~~~~~~
@@ -92,9 +92,10 @@ provided, that context will be placed into the template's context.
 If ``next_override`` is provided, the user will be redirected to the specified
 URL after form submission.  Otherwise the user will be redirected to the URL
 specified in the ``next`` parameter in ``request.POST``.  If ``request.POST``
-has no ``next`` parameter, ``request.GET`` will be searched.  If ``request.GET``
-has no ``next`` parameter, the ``HTTP_REFERER`` header will be inspected.  If
-that header does not exist, the user will be redirected back to the current URL.
+has no ``next`` parameter, ``request.GET`` will be searched.  If
+``request.GET`` has no ``next`` parameter, the ``HTTP_REFERER`` header will
+be inspected.  If that header does not exist, the user will be redirected
+back to the current URL.
 
 Deleting an avatar
 ~~~~~~~~~~~~~~~~~~
@@ -118,9 +119,9 @@ template rendering system:
     ``django.contrib.auth.models.User`` object instance or a username.
 
 ``{% avatar user [size in pixels] %}``
-    Renders an HTML ``img`` tag for the given user for the specified size.  User
-    can be either a ``django.contrib.auth.models.User`` object instance or a
-    username.
+    Renders an HTML ``img`` tag for the given user for the specified size.
+    User can be either a ``django.contrib.auth.models.User`` object instance
+    or a username.
 
 ``{% render_avatar avatar [size in pixels] %}``
     Given an actual ``avatar.models.Avatar`` object instance, renders an HTML
@@ -144,8 +145,8 @@ AVATAR_RESIZE_METHOD
 
 AVATAR_STORAGE_DIR
     The directory under ``MEDIA_ROOT`` to store the images.  If using a
-    non-filesystem storage device, this will simply be appended to the beginning
-    of the file name.
+    non-filesystem storage device, this will simply be appended to the
+    beginning of the file name.
 
 AVATAR_GRAVATAR_BACKUP
     A boolean determining whether to default to the Gravatar service if no
