@@ -57,7 +57,8 @@ def root_mean_square_difference(image1, image2):
 class AvatarTests(TestCase):
     def setUp(self):
         self.testdatapath = os.path.join(os.path.dirname(__file__), "data")
-        self.user = get_user_model().objects.create_user('test', 'lennon@thebeatles.com', 'testpassword')
+        self.user = get_user_model().objects.create_user(
+            'test', 'lennon@thebeatles.com', 'testpassword')
         self.user.save()
         self.client.login(username='test', password='testpassword')
         self.site = AdminSite()
@@ -94,21 +95,24 @@ class AvatarTests(TestCase):
         # use with AVATAR_ALLOWED_FILE_EXTS = ('.jpg', '.png')
         response = upload_helper(self, "imagefilewithoutext")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.redirect_chain), 0)  # Redirect only if it worked
+        # Redirect only if it worked
+        self.assertEqual(len(response.redirect_chain), 0)
         self.assertNotEqual(response.context['upload_avatar_form'].errors, {})
 
     def test_image_with_wrong_extension(self):
         # use with AVATAR_ALLOWED_FILE_EXTS = ('.jpg', '.png')
         response = upload_helper(self, "imagefilewithwrongext.ogg")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.redirect_chain), 0)  # Redirect only if it worked
+        # Redirect only if it worked
+        self.assertEqual(len(response.redirect_chain), 0)
         self.assertNotEqual(response.context['upload_avatar_form'].errors, {})
 
     def test_image_too_big(self):
         # use with AVATAR_MAX_SIZE = 1024 * 1024
         response = upload_helper(self, "testbig.png")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.redirect_chain), 0)  # Redirect only if it worked
+        # Redirect only if it worked
+        self.assertEqual(len(response.redirect_chain), 0)
         self.assertNotEqual(response.context['upload_avatar_form'].errors, {})
 
     def test_default_url(self):
@@ -183,7 +187,8 @@ class AvatarTests(TestCase):
         new_primary = Avatar.objects.get(user=self.user, primary=True)
         self.assertEqual(new_primary.pk, choice.pk)
         # Avatar with old primary pk exists but it is not primary anymore
-        self.assertTrue(Avatar.objects.filter(user=self.user, pk=old_primary.pk, primary=False).exists())
+        self.assertTrue(Avatar.objects.filter(
+            user=self.user, pk=old_primary.pk, primary=False).exists())
 
     def test_too_many_avatars(self):
         for i in range(0, settings.AVATAR_MAX_AVATARS_PER_USER):
@@ -192,7 +197,8 @@ class AvatarTests(TestCase):
         response = upload_helper(self, "test.png")
         count_after = Avatar.objects.filter(user=self.user).count()
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.redirect_chain), 0)  # Redirect only if it worked
+        # Redirect only if it worked
+        self.assertEqual(len(response.redirect_chain), 0)
         self.assertNotEqual(response.context['upload_avatar_form'].errors, {})
         self.assertEqual(count_before, count_after)
 
@@ -200,25 +206,30 @@ class AvatarTests(TestCase):
     def test_automatic_thumbnail_creation_RGBA(self):
         upload_helper(self, "django.png")
         avatar = get_primary_avatar(self.user)
-        image = Image.open(avatar.avatar.storage.open(avatar.avatar_name(settings.AVATAR_DEFAULT_SIZE), 'rb'))
+        image = Image.open(avatar.avatar.storage.open(
+            avatar.avatar_name(settings.AVATAR_DEFAULT_SIZE), 'rb'))
         self.assertEqual(image.mode, 'RGBA')
 
     def test_automatic_thumbnail_creation_CMYK(self):
         upload_helper(self, "django_pony_cmyk.jpg")
         avatar = get_primary_avatar(self.user)
-        image = Image.open(avatar.avatar.storage.open(avatar.avatar_name(settings.AVATAR_DEFAULT_SIZE), 'rb'))
+        image = Image.open(avatar.avatar.storage.open(
+            avatar.avatar_name(settings.AVATAR_DEFAULT_SIZE), 'rb'))
         self.assertEqual(image.mode, 'RGB')
 
     def test_thumbnail_transpose_based_on_exif(self):
         upload_helper(self, "image_no_exif.jpg")
         avatar = get_primary_avatar(self.user)
-        image_no_exif = Image.open(avatar.avatar.storage.open(avatar.avatar_name(settings.AVATAR_DEFAULT_SIZE), 'rb'))
+        image_no_exif = Image.open(avatar.avatar.storage.open(
+            avatar.avatar_name(settings.AVATAR_DEFAULT_SIZE), 'rb'))
 
         upload_helper(self, "image_exif_orientation.jpg")
         avatar = get_primary_avatar(self.user)
-        image_with_exif = Image.open(avatar.avatar.storage.open(avatar.avatar_name(settings.AVATAR_DEFAULT_SIZE), 'rb'))
+        image_with_exif = Image.open(avatar.avatar.storage.open(
+            avatar.avatar_name(settings.AVATAR_DEFAULT_SIZE), 'rb'))
 
-        self.assertLess(root_mean_square_difference(image_with_exif, image_no_exif), 1)
+        self.assertLess(root_mean_square_difference(
+            image_with_exif, image_no_exif), 1)
 
     def test_has_avatar_False_if_no_avatar(self):
         self.assertFalse(avatar_tags.has_avatar(self.user))
@@ -263,7 +274,8 @@ class AvatarTests(TestCase):
         avatar = get_primary_avatar(self.user)
 
         result = avatar_tags.avatar(self.user, title="Avatar")
-        html = '<img src="{}" width="80" height="80" alt="test" title="Avatar" />'.format(avatar.avatar_url(80))
+        html = '<img src="{}" width="80" height="80" alt="test" ' \
+               'title="Avatar" />'.format(avatar.avatar_url(80))
         self.assertInHTML(html, result)
 
     def test_default_add_template(self):

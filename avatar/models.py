@@ -6,7 +6,6 @@ import hashlib
 from PIL import Image
 from shutil import copyfile
 from django.db import models
-from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.files.storage import get_storage_class
 from django.utils.module_loading import import_string
@@ -152,7 +151,7 @@ class Avatar(models.Model):
         try:
             orientation = image._getexif()[0x0112]
             ops = EXIF_ORIENTATION_STEPS[orientation]
-        except:
+        except Exception:
             ops = []
         for method in ops:
             image = image.transpose(getattr(Image, method))
@@ -168,7 +167,8 @@ class Avatar(models.Model):
         except IOError:
             import traceback
             traceback.print_exc()
-            return # What should we do here?  Render a "sorry, didn't work" img?
+            # TODO: What should we do here?  Render a "sorry, didn't work" img?
+            return
         quality = quality or settings.AVATAR_THUMB_QUALITY
         (w, h) = image.size
         if w != size or h != size:

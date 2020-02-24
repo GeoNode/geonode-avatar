@@ -74,7 +74,8 @@ def add(request, extra_context=None, next_override=None,
             avatar.avatar.save(image_file.name, image_file)
             avatar.save()
             messages.success(request, _("Successfully uploaded a new avatar."))
-            avatar_updated.send(sender=Avatar, user=request.user, avatar=avatar)
+            avatar_updated.send(
+                sender=Avatar, user=request.user, avatar=avatar)
             return redirect(next_override or _get_next(request))
     context = {
         'avatar': avatar,
@@ -113,7 +114,8 @@ def change(request, extra_context=None, next_override=None,
             invalidate_cache(request.user)
             messages.success(request, _("Successfully updated your avatar."))
         if updated:
-            avatar_updated.send(sender=Avatar, user=request.user, avatar=avatar)
+            avatar_updated.send(
+                sender=Avatar, user=request.user, avatar=avatar)
         return redirect(next_override or _get_next(request))
 
     context = {
@@ -164,7 +166,8 @@ def delete(request, extra_context=None, next_override=None, *args, **kwargs):
         'next': next_override or _get_next(request),
     }
     context.update(extra_context)
-    template_name = settings.AVATAR_DELETE_TEMPLATE or 'avatar/confirm_delete.html'
+    template_name = \
+        settings.AVATAR_DELETE_TEMPLATE or 'avatar/confirm_delete.html'
     return render(request, template_name, context)
 
 

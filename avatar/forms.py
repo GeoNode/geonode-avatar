@@ -40,16 +40,16 @@ class UploadAvatarForm(forms.Form):
                 valid_exts = ", ".join(settings.AVATAR_ALLOWED_FILE_EXTS)
                 error = _("%(ext)s is an invalid file extension. "
                           "Authorized extensions are : %(valid_exts_list)s")
-                raise forms.ValidationError(error
-                                            % {'ext': ext,
-                                             'valid_exts_list': valid_exts})
+                raise forms.ValidationError(
+                    error % {'ext': ext, 'valid_exts_list': valid_exts})
 
         if data.size > settings.AVATAR_MAX_SIZE:
             error = _("Your file is too big (%(size)s), "
                       "the maximum allowed size is %(max_valid_size)s")
-            raise forms.ValidationError(error
-                                        % {'size': filesizeformat(data.size),
-                                         'max_valid_size': filesizeformat(settings.AVATAR_MAX_SIZE)})
+            raise forms.ValidationError(
+                error % {'size': filesizeformat(data.size),
+                         'max_valid_size':
+                             filesizeformat(settings.AVATAR_MAX_SIZE)})
 
         count = Avatar.objects.filter(user=self.user).count()
         if 1 < settings.AVATAR_MAX_AVATARS_PER_USER <= count:
@@ -83,6 +83,6 @@ class DeleteAvatarForm(forms.Form):
         avatars = kwargs.pop('avatars')
         super(DeleteAvatarForm, self).__init__(*args, **kwargs)
         choices = [(avatar.id, avatar_img(avatar, size)) for avatar in avatars]
-        self.fields['choices'] = forms.MultipleChoiceField(label=_("Choices"),
-                                                           choices=choices,
-                                                           widget=widgets.CheckboxSelectMultiple)
+        self.fields['choices'] = forms.MultipleChoiceField(
+            label=_("Choices"), choices=choices,
+            widget=widgets.CheckboxSelectMultiple)
