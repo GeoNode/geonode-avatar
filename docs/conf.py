@@ -40,8 +40,8 @@ source_suffix = '.txt'
 master_doc = 'index'
 
 # General information about the project.
-project = u'django-avatar'
-copyright = u'2013, django-avatar developers'
+project = 'django-avatar'
+copyright = '2013, django-avatar developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -186,8 +186,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'django-avatar.tex', u'django-avatar Documentation',
-   u'django-avatar developers', 'manual'),
+  ('index', 'django-avatar.tex', 'django-avatar Documentation',
+   'django-avatar developers', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -216,8 +216,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'django-avatar', u'django-avatar Documentation',
-     [u'django-avatar developers'], 1)
+    ('index', 'django-avatar', 'django-avatar Documentation',
+     ['django-avatar developers'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -230,8 +230,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'django-avatar', u'django-avatar Documentation',
-   u'django-avatar developers', 'django-avatar', 'One line description of project.',
+  ('index', 'django-avatar', 'django-avatar Documentation',
+   'django-avatar developers', 'django-avatar', 'One line description of project.',
    'Miscellaneous'),
 ]
 
