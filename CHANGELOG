@@ -1,4 +1,10 @@
-5.0.0 (January 4, 2019)
+5.0.1 (February 24, 2020)
+-------------------------
+
+    * Python3 syntax updates: remove unicode
+    * Syntax updates for Python 3 
+
+5.0.0 (January 4, 2020)
 -----------------------
 
     * Added Django 2.1, 2.2, and 3.0 support.
