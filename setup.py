@@ -4,7 +4,11 @@ from os import path
 try:
     # pip >=20
     from pip._internal.network.session import PipSession
-    from pip._internal.req import parse_requirements
+    try:
+        from pip._internal.req import parse_requirements
+    except ImportError:
+        # pip >=21
+        from pip._internal.req.req_file import parse_requirements
 except ImportError:
     try:
         # 10.0.0 <= pip <= 19.3.1
@@ -19,9 +23,9 @@ from setuptools import setup, find_packages
 
 
 # Parse requirements.txt to get the list of dependencies
-inst_req = parse_requirements('requirements.txt',
-                              session=PipSession())
-REQUIREMENTS = [str(r.req) for r in inst_req]
+inst_req = parse_requirements("requirements.txt", session=PipSession())
+REQUIREMENTS = [str(r.req) if hasattr(r, 'req') else r.requirement if not r.is_editable else ''
+                for r in inst_req]
 
 LONG_DESCRIPTION = """
 Using geonode-avatar
