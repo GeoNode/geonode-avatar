@@ -197,9 +197,10 @@ class Avatar(models.Model):
             if not self.avatar.storage.exists(_upload_path):
                 copyfile(self.avatar.storage.path(self.avatar_name(size)),
                          self.avatar.storage.path(_upload_path))
+            return self.avatar.storage.url(self.avatar_name(size))
         except BaseException:
-            pass
-        return self.avatar.storage.url(self.avatar_name(size))
+            from django.contrib.staticfiles.templatetags import staticfiles
+            return staticfiles.static(settings.MISSING_THUMBNAIL)
 
     def get_absolute_url(self):
         return self.avatar_url(settings.AVATAR_DEFAULT_SIZE)
