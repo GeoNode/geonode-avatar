@@ -185,6 +185,8 @@ class Avatar(models.Model):
             image.save(thumb, settings.AVATAR_THUMB_FORMAT, quality=quality)
             thumb_file = ContentFile(thumb.getvalue())
         else:
+            if hasattr(orig, 'read'):
+                orig = orig.read()
             thumb_file = ContentFile(orig)
         thumb = self.avatar.storage.save(self.avatar_name(size), thumb_file)
 
