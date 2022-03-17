@@ -12,6 +12,7 @@ from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 from django.db.models import signals
+from django.templatetags.static import static
 
 from avatar.conf import settings
 from avatar.utils import get_username, force_bytes, invalidate_cache
@@ -201,8 +202,7 @@ class Avatar(models.Model):
                          self.avatar.storage.path(_upload_path))
             return self.avatar.storage.url(self.avatar_name(size))
         except BaseException:
-            from django.contrib.staticfiles.templatetags import staticfiles
-            return staticfiles.static(settings.MISSING_THUMBNAIL)
+            return static(settings.MISSING_THUMBNAIL)
 
     def get_absolute_url(self):
         return self.avatar_url(settings.AVATAR_DEFAULT_SIZE)
